@@ -1,0 +1,26 @@
+* 全体の中央寄せ */
+.slot-machine {
+    text-align: center;
+    padding: 20px;
+}
+
+/* 数字を横並びにする */
+.reels {
+    display: flex;
+    justify-content: center;
+    gap: 20px;  /* 間隔を開ける */
+    margin: 20px 0;
+}
+
+/* 数字を表示する枠の設定 */
+.reel-box div {
+    width: 80px;
+    height: 80px;
+    border: 2px solid black;
+    margin: 10px;
+    font-size: 36px;
+    /* 数字を中央に配置 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
