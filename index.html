@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- スロットマシンの見た目を作ります -->
+    <div class="slot-machine">
+      <!-- スタートボタン -->
+      <button id="start">スタート</button>
+
+      <!-- 数字を表示する場所 -->
+      <div class="reels">
+        <!-- 1つ目の数字とストップボタン -->
+        <div class="reel-box">
+          <div id="reel1">0</div>
+          <button id="stop1">ストップ</button>
+        </div>
+
+        <!-- 2つ目の数字とストップボタン -->
+        <div class="reel-box">
+          <div id="reel2">0</div>
+          <button id="stop2">ストップ</button>
+        </div>
+
+        <!-- 3つ目の数字とストップボタン -->
+        <div class="reel-box">
+          <div id="reel3">0</div>
+          <button id="stop3">ストップ</button>
+        </div>
+      </div>
+      <script>
+        // 要素の取得
+        const startBtn = document.getElementById("start");
+        const reel1 = document.getElementById("reel1");
+        const reel2 = document.getElementById("reel2");
+        const reel3 = document.getElementById("reel3");
+        const stop1 = document.getElementById("stop1");
+        const stop2 = document.getElementById("stop2");
+        const stop3 = document.getElementById("stop3");
+
+        // 変数の初期化
+        let isSpinning = false;
+        let spin1 = null;
+        let spin2 = null;
+        let spin3 = null;
+
+        // 初期状態でストップボタンを無効化
+        stop1.disabled = true;
+        stop2.disabled = true;
+        stop3.disabled = true;
+
+        // ランダムな数字を生成する関数
+        function getRandomNumber() {
+          return Math.floor(Math.random() * 10);
+        }
+
+        // スタートボタンのクリックイベント
+        startBtn.addEventListener("click", function () {
+          // すでに回転中なら何もしない
+          if (isSpinning) return;
+
+          // 回転開始
+          isSpinning = true;
+
+          // ストップボタンを有効化
+          stop1.disabled = false;
+          stop2.disabled = false;
+          stop3.disabled = false;
+
+          // 各リールの回転開始
+          spin1 = setInterval(function () {
+            reel1.textContent = getRandomNumber();
+          }, 100);
+
+          spin2 = setInterval(function () {
+            reel2.textContent = getRandomNumber();
+          }, 100);
+
+          spin3 = setInterval(function () {
+            reel3.textContent = getRandomNumber();
+          }, 100);
+        });
+
+        // ストップボタン1のクリックイベント
+        stop1.addEventListener("click", function () {
+          if (!isSpinning) return;
+          clearInterval(spin1);
+          stop1.disabled = true;
+          checkResult();
+        });
+
+        // ストップボタン2のクリックイベント
+        stop2.addEventListener("click", function () {
+          if (!isSpinning) return;
+          clearInterval(spin2);
+          stop2.disabled = true;
+          checkResult();
+        });
+
+        // ストップボタン3のクリックイベント
+        stop3.addEventListener("click", function () {
+          if (!isSpinning) return;
+          clearInterval(spin3);
+          stop3.disabled = true;
+          checkResult();
+        });
+
+        // 結果をチェックする関数
+        function checkResult() {
+          // 全てのリールが止まっているか確認
+          if (stop1.disabled && stop2.disabled && stop3.disabled) {
+            // 回転状態を解除　念の為、動作を止める
+            isSpinning = false;
+
+            // 数字が揃っているか確認
+            if (
+              reel1.textContent === reel2.textContent &&
+              reel2.textContent === reel3.textContent
+            ) {
+              // 揃った場合
+              setTimeout(function () {
+                alert("🎉 大当たり！3つ揃いました！");
+              }, 30000);
+            } else {
+              // 揃わなかった場合
+              setTimeout(function () {
+                alert("😢 残念！もう一度チャレンジ！");
+              }, 30000);
+            }
+          }
+        }
+
+        // console.log(isSpinning)
+        console.log(getRandomNumber());
+      </script>
+    </div>
+  </body>
+</html>
